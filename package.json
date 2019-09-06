@@ -1,0 +1,20 @@
+{
+  "name": "launchbar-node",
+  "version": "2.0.2",
+  "description": "A library to aid with the development of LaunchBar actions.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "launchbar"
+  ],
+  "author": "Roey Biran (https://github.com/roeybiran/)",
+  "license": "MIT",
+  "dependencies": {
+    "@roeybiran/launchbar-env": "^1.0.0",
+    "@roeybiran/task": "^1.0.0",
+    "escape-string-applescript": "^2.0.0"
+  },
+  "devDependencies": {}
+}
