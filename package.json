@@ -16,5 +16,7 @@
     "@roeybiran/task": "^1.0.0",
     "escape-string-applescript": "^2.0.0"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "repository": "https://github.com/roeybiran/launchbar-node",
+  "homepage": "https://github.com/roeybiran/launchbar-node"
 }
