@@ -7,7 +7,7 @@ _Note: A heavy work in progress, things change and break incessantly._
 ## Features
 
 * Aims to offer NodeJS bindings for the entire LaunchBar JavaScript API.
-* Tries to be as syntactically similar as reasonably possible to LaunchBar's own JS API>
+* Tries to be as syntactically similar as reasonably possible to LaunchBar's own JS API.
 * Easy caching.
 * Easy action config handling.
 
