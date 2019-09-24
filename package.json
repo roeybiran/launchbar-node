@@ -3,9 +3,6 @@
   "version": "2.0.3",
   "description": "A library to aid with the development of LaunchBar actions.",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "keywords": [
     "launchbar"
   ],

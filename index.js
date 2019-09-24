@@ -151,24 +151,21 @@ LaunchBar.displayNotification = async options => {
 
 /**
  * Boilerplate function for text-processing actions.
- * @param {string} textArguments - the text to process.
+ * @param {(String|Array)} text - a single string or an array of strings.
  * @param {function} textProcessingFunction - a function to run over each line. Should accept and return single argument -- a line of text.
  * @param {string} joiner - the separator to join back the lines into a string.
  *
  */
-LaunchBar.textAction = (
-  textArguments,
-  textProcessingFunction,
-  joiner = "\n"
-) => {
+// If sent arguments are strings, LB will most likely consolidate them into a single string argument
+// however, it is perfectly reasonable to send paths or other "items" to text-processing actions
+// in such cases, arguments are sent as a regular array
+LaunchBar.textAction = (textArguments, textProcessingFunction, joiner = "\n") => {
   let output = [];
-  // If sent arguments are strings, LB will most likely consolidate them into a single string argument
-  // however, it is perfectly reasonable to send paths or other "items" to text-processing actions
-  // in such cases, arguments are send as a regular array
-  if (typeof textArguments === "string") {
-    textArguments = [textArguments];
+  let inputText = textArguments;
+  if (typeof inputText === "string") {
+    inputText = [inputText];
   }
-  textArguments.forEach(textItem => {
+  inputText.forEach(textItem => {
     const linesOfTextItem = textItem.split("\n");
     linesOfTextItem.forEach(aLine => {
       output.push(textProcessingFunction(aLine));
