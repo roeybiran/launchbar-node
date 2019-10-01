@@ -37,8 +37,7 @@ LaunchBar.remainActive = async () => {
 };
 
 /**
- * checks whether LB has keyboard focus.
- * @returns {boolean} True if LB has keyboard focus, otherwise false.
+ * @returns {Boolean} true if LaunchBar has keyboard focus, otherwise false.
  */
 LaunchBar.hasKeyboardFocus = async () => {
   try {
@@ -53,8 +52,8 @@ LaunchBar.hasKeyboardFocus = async () => {
 };
 
 /**
- * Asynchronously sets the clipboard's contents.
- * @param {string} text the text to copy to the clipboard.
+ * sets the clipboard's contents.
+ * @param {String} text - the text to copy to the clipboard.
  */
 LaunchBar.setClipboardString = async text => {
   try {
@@ -70,7 +69,7 @@ LaunchBar.setClipboardString = async text => {
 };
 
 /**
- * Asynchronously clears the clipboard's contents.
+ * Clears the clipboard's contents.
  */
 LaunchBar.clearClipboard = async () => {
   try {
@@ -84,8 +83,8 @@ LaunchBar.clearClipboard = async () => {
 };
 
 /**
- * Asynchronously pastes passed text into the frontmost application.
- * @param {string} text the text to paste.
+ * Paste text in the frontmost application.
+ * @param {String} text - the text to paste.
  */
 LaunchBar.paste = async text => {
   try {
@@ -101,10 +100,9 @@ LaunchBar.paste = async text => {
 };
 
 /**
- * Perform a macOS service.
- * Available services could be seen in the index.
- * @param {string} service the service to perform.
- * @param {string=} argv service's arguments.
+ * Perform a macOS service (as seen System Preferences > Keyboard > Shortcuts).
+ * @param {String} service - the service to perform.
+ * @param {String=} argv - optional arguments to the service.
  */
 LaunchBar.performService = async (service, argv) => {
   await task.execFile("/usr/bin/osascript", [
@@ -117,12 +115,12 @@ LaunchBar.performService = async (service, argv) => {
 
 /**
  * Displays a message in Notification Center.
- * @param {Object} [options] - the message's options.
- * @param {string} [options.text] - the notification's body.
- * @param {string} [options.title] - the notification's title.
- * @param {string} [options.subtitle] - the notification's subtitle.
- * @param {string} [options.callbackUrl] - URL opened if the user clicks on the notification.
- * @param {number} [options.afterDelay] - Delay in seconds before the notification is shown.
+ * @param {Object} [options]
+ * @param {String} [options.text] - the notification's body.
+ * @param {String} [options.title] - the notification's title.
+ * @param {String} [options.subtitle] - the notification's subtitle.
+ * @param {String} [options.callbackUrl] - URL opened if the user clicks on the notification.
+ * @param {Number} [options.afterDelay] - Delay in seconds before the notification is shown.
  */
 LaunchBar.displayNotification = async options => {
   let text = "";
@@ -152,14 +150,17 @@ LaunchBar.displayNotification = async options => {
 /**
  * Boilerplate function for text-processing actions.
  * @param {(String|Array)} text - a single string or an array of strings.
- * @param {function} textProcessingFunction - a function to run over each line. Should accept and return single argument -- a line of text.
- * @param {string} joiner - the separator to join back the lines into a string.
- *
+ * @param {Function} textProcessingFunction - a function to run over each line. Should accept and return single argument -- a line of text.
+ * @param {String} joiner - the separator to join back the lines into a string.
  */
 // If sent arguments are strings, LB will most likely consolidate them into a single string argument
 // however, it is perfectly reasonable to send paths or other "items" to text-processing actions
 // in such cases, arguments are sent as a regular array
-LaunchBar.textAction = (textArguments, textProcessingFunction, joiner = "\n") => {
+LaunchBar.textAction = (
+  textArguments,
+  textProcessingFunction,
+  joiner = "\n"
+) => {
   let output = [];
   let inputText = textArguments;
   if (typeof inputText === "string") {
