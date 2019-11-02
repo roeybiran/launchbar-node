@@ -9,46 +9,41 @@ const LaunchBar = module.exports;
 LaunchBar.env = env;
 
 /**
+ * output data to LaunchBar.
+ */
+LaunchBar.output = data => {
+  console.log(JSON.stringify(data));
+};
+
+/**
  * hides LaunchBar.
  */
 LaunchBar.hide = async () => {
-  try {
-    await task.execFile("/usr/bin/osascript", [
-      "-e",
-      'tell application "LaunchBar" to hide'
-    ]);
-  } catch (error) {
-    throw error;
-  }
+  await task.execFile("/usr/bin/osascript", [
+    "-e",
+    'tell application "LaunchBar" to hide'
+  ]);
 };
 
 /**
  * keeps LaunchBar active.
  */
 LaunchBar.remainActive = async () => {
-  try {
-    await task.execFile("/usr/bin/osascript", [
-      "-e",
-      'tell application "LaunchBar" to remain active'
-    ]);
-  } catch (error) {
-    throw error;
-  }
+  await task.execFile("/usr/bin/osascript", [
+    "-e",
+    'tell application "LaunchBar" to remain active'
+  ]);
 };
 
 /**
  * @returns {Boolean} true if LaunchBar has keyboard focus, otherwise false.
  */
 LaunchBar.hasKeyboardFocus = async () => {
-  try {
-    const result = await task.execFile("/usr/bin/osascript", [
-      "-e",
-      'tell application "LaunchBar" to return has keyboard focus'
-    ]);
-    return result === "true";
-  } catch (error) {
-    throw error;
-  }
+  const result = await task.execFile("/usr/bin/osascript", [
+    "-e",
+    'tell application "LaunchBar" to return has keyboard focus'
+  ]);
+  return result === "true";
 };
 
 /**
@@ -56,30 +51,19 @@ LaunchBar.hasKeyboardFocus = async () => {
  * @param {String} text - the text to copy to the clipboard.
  */
 LaunchBar.setClipboardString = async text => {
-  try {
-    await task.execFile("/usr/bin/osascript", [
-      "-e",
-      `tell application "LaunchBar" to set the clipboard to "${escapeString(
-        text
-      )}"`
-    ]);
-  } catch (error) {
-    throw error;
-  }
+  await task.execFile("/usr/bin/osascript", [
+    "-e",
+    `tell application "LaunchBar" to set the clipboard to "${escapeString(
+      text
+    )}"`
+  ]);
 };
 
 /**
  * Clears the clipboard's contents.
  */
 LaunchBar.clearClipboard = async () => {
-  try {
-    await task.execFile("/usr/bin/osascript", [
-      "-e",
-      'set the clipboard to ""'
-    ]);
-  } catch (error) {
-    throw error;
-  }
+  await task.execFile("/usr/bin/osascript", ["-e", 'set the clipboard to ""']);
 };
 
 /**
@@ -87,16 +71,12 @@ LaunchBar.clearClipboard = async () => {
  * @param {String} text - the text to paste.
  */
 LaunchBar.paste = async text => {
-  try {
-    await task.execFile("/usr/bin/osascript", [
-      "-e",
-      `tell application "LaunchBar" to paste in frontmost application "${escapeString(
-        text
-      )}"`
-    ]);
-  } catch (error) {
-    throw error;
-  }
+  await task.execFile("/usr/bin/osascript", [
+    "-e",
+    `tell application "LaunchBar" to paste in frontmost application "${escapeString(
+      text
+    )}"`
+  ]);
 };
 
 /**
