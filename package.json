@@ -1,6 +1,6 @@
 {
   "name": "launchbar-node",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "A library to aid with the development of LaunchBar actions.",
   "main": "index.js",
   "keywords": [
