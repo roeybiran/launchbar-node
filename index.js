@@ -141,23 +141,26 @@ LaunchBar.textAction = (
   textProcessingFunction,
   joiner = "\n"
 ) => {
-  let output = [];
   let inputText = textArguments;
   if (typeof inputText === "string") {
     inputText = [inputText];
   }
-  inputText.forEach(textItem => {
-    const linesOfTextItem = textItem.split("\n");
-    linesOfTextItem.forEach(aLine => {
-      output.push(textProcessingFunction(aLine));
+  const allLines = inputText.map(textArgumnet => {
+    return textArgumnet.split("\n").map(line => {
+      return textProcessingFunction(line);
     });
   });
 
-  output = output.join(joiner);
   if (env.commandKey) {
-    return console.log(output);
+    return console.log(
+      JSON.stringify(
+        allLines[0].map(x => {
+          return { title: x };
+        })
+      )
+    );
   }
-  return LaunchBar.paste(output);
+  return LaunchBar.paste(allLines[0].join(joiner));
 };
 
 // TODO:
