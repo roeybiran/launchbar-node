@@ -145,22 +145,24 @@ LaunchBar.textAction = (
   if (typeof inputText === "string") {
     inputText = [inputText];
   }
-  const allLines = inputText.map(textArgumnet => {
-    return textArgumnet.split("\n").map(line => {
-      return textProcessingFunction(line);
-    });
-  });
+  const allLines = inputText
+    .map(textArgumnet => {
+      return textArgumnet.split("\n").map(line => {
+        return textProcessingFunction(line);
+      });
+    })
+    .flat();
 
   if (env.commandKey) {
     return console.log(
       JSON.stringify(
-        allLines[0].map(x => {
+        allLines.map(x => {
           return { title: x };
         })
       )
     );
   }
-  return LaunchBar.paste(allLines[0].join(joiner));
+  return LaunchBar.paste(allLines.join(joiner));
 };
 
 // TODO:
