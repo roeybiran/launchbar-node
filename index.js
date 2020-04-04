@@ -97,7 +97,7 @@ LaunchBar.performService = async (service, argv) => {
  * Displays a message in Notification Center.
  * @param {Object} [options]
  * @param {String} [options.text] - the notification's body.
- * @param {String} [options.title] - the notification's title.
+ * @param {String} [options.title=LaunchBar] - the notification's title.
  * @param {String} [options.subtitle] - the notification's subtitle.
  * @param {String} [options.callbackUrl] - URL opened if the user clicks on the notification.
  * @param {Number} [options.afterDelay] - Delay in seconds before the notification is shown.
@@ -107,12 +107,12 @@ LaunchBar.displayNotification = async options => {
   let subtitle = "";
   let callbackUrl = "";
   let afterDelay = 0;
-  let title = "";
+  let title = "LaunchBar";
 
   if (options) {
-    title = options.title;
-    text = options.text || "";
-    subtitle = options.subtitle || "";
+    title = escapeString(options.title) || "LaunchBar";
+    text = escapeString(options.text) || "";
+    subtitle = escapeString(options.subtitle) || "";
     callbackUrl = options.callbackUrl || "";
     afterDelay = options.afterDelay || 0;
   }
@@ -133,9 +133,12 @@ LaunchBar.displayNotification = async options => {
  * @param {Function} textProcessingFunction - a function to run over each line. Should accept and return single argument -- a line of text.
  * @param {String} joiner - the separator to join back the lines into a string.
  */
-// If sent arguments are strings, LB will most likely consolidate them into a single string argument
-// however, it is perfectly reasonable to send paths or other "items" to text-processing actions
-// in such cases, arguments are sent as a regular array
+
+/*
+  If sent arguments are strings, LB will most likely consolidate them into a single string argument
+  however, it is perfectly reasonable to send paths or other "items" to text-processing actions
+  in such cases, arguments are sent as a regular array
+ */
 LaunchBar.textAction = (
   textArguments,
   textProcessingFunction,
@@ -165,24 +168,21 @@ LaunchBar.textAction = (
   return LaunchBar.paste(allLines.join(joiner));
 };
 
-// TODO:
-// an action.item object?
-// caching for live feedback actions
-// query
-// chosenItem
-// allItems
-// title
-// subtitle
-// url
-// path
-// icon
-// iconFont
-// iconIsTemplate
-// quickLookURL
-// action
-// actionReturnsItems
-// actionRunsInBackground
-// actionBundleIdentifier
-// eschew this?
-// actionArgument
-// children
+/*
+  TODO:
+  an action.item object?
+  title
+  subtitle
+  url
+  path
+  icon
+  iconFont
+  iconIsTemplate
+  quickLookURL
+  action
+  actionReturnsItems
+  actionRunsInBackground
+  actionBundleIdentifier
+  actionArgument
+  children
+*/
