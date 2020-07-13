@@ -1,12 +1,45 @@
 "use strict";
 
-const env = require("@roeybiran/launchbar-env");
+const Conf = require("conf");
+const CacheConf = require("cache-conf");
 const escapeString = require("escape-string-applescript");
 const task = require("@roeybiran/task");
 
 const LaunchBar = module.exports;
 
-LaunchBar.env = env;
+LaunchBar.Item = class {
+  constructor(
+    title,
+    subtitle,
+    url,
+    path,
+    icon,
+    iconFont,
+    iconIsTemplate,
+    quickLookURL,
+    action,
+    actionReturnsItems,
+    actionRunsInBackground,
+    actionBundleIdentifier,
+    actionArgument,
+    children
+  ) {
+    this.title = title;
+    this.subtitle = subtitle;
+    this.url = url;
+    this.path = path;
+    this.icon = icon;
+    this.iconFont = iconFont;
+    this.iconIsTemplate = iconIsTemplate;
+    this.quickLookURL = quickLookURL;
+    this.action = action;
+    this.actionReturnsItems = actionReturnsItems;
+    this.actionRunsInBackground = actionRunsInBackground;
+    this.actionBundleIdentifier = actionBundleIdentifier;
+    this.actionArgument = actionArgument;
+    this.children = children;
+  }
+};
 
 /**
  * output data to LaunchBar.
@@ -156,7 +189,7 @@ LaunchBar.textAction = (
     })
     .flat();
 
-  if (env.commandKey) {
+  if (LaunchBar.env.commandKey) {
     return console.log(
       JSON.stringify(
         allLines.map(x => {
@@ -168,21 +201,48 @@ LaunchBar.textAction = (
   return LaunchBar.paste(allLines.join(joiner));
 };
 
-/*
-  TODO:
-  an action.item object?
-  title
-  subtitle
-  url
-  path
-  icon
-  iconFont
-  iconIsTemplate
-  quickLookURL
-  action
-  actionReturnsItems
-  actionRunsInBackground
-  actionBundleIdentifier
-  actionArgument
-  children
-*/
+/**
+ * @property {string} path - the absolute path the current action's .lbaction package
+ * @property {string} cachePath - the absolute path the current action's cache folder (in ~/Library/Caches/at.obdev.LaunchBar/Actions/)
+ * @property {string} supportPath - the absolute path the current action's support folder (~/Library/Application Support/LaunchBar/Action Support/)
+ * @property {boolean} isDebugLogEnabled - True is this debugging is enabled for this action.
+ * @property {string} applicationPath - the absolute path to the LaunchBar.app bundle.
+ * @property {string} scriptType - the script's type ("default"/"suggestions" etc.).
+ * @property {boolean} commandKey - True is this key was held down when the action was invoked.
+ * @property {boolean} alternateKey - True is this key was held down when the action was invoked.
+ * @property {boolean} shiftKey - True is this key was held down when the action was invoked.
+ * @property {boolean} controlKey - True is this key was held down when the action was invoked.
+ * @property {boolean} spaceKey - True is this key was held down when the action was invoked.
+ * @property {boolean} actionRunsInBackground - True if the action is running in the background.
+ * @property {boolean} isLiveFeedbackEnabled - True is Live Feedback is enabled for this action.
+ */
+LaunchBar.env = {
+  actionPath: process.env.LB_ACTION_PATH,
+  cachePath: process.env.LB_CACHE_PATH,
+  supportPath: process.env.LB_SUPPORT_PATH,
+  isDebugLogEnabled: process.env.LB_DEBUG_LOG_ENABLED === "1",
+  applicationPath: process.env.LB_LAUNCHBAR_PATH,
+  scriptType: process.env.LB_SCRIPT_TYPE,
+  commandKey: process.env.LB_OPTION_COMMAND_KEY === "1",
+  alternateKey: process.env.LB_OPTION_ALTERNATE_KEY === "1",
+  shiftKey: process.env.LB_OPTION_SHIFT_KEY === "1",
+  controlKey: process.env.LB_OPTION_CONTROL_KEY === "1",
+  spaceKey: process.env.LB_OPTION_SPACE_KEY === "1",
+  actionRunsInBackground: process.env.LB_OPTION_RUN_IN_BACKGROUND === "1",
+  isLiveFeedbackEnabled: process.env.LB_OPTION_LIVE_FEEDBACK === "1"
+};
+
+/**
+ * Persist data in the respective action's "support" directory.
+ */
+LaunchBar.config = new Conf({
+  cwd: LaunchBar.env.supportPath
+});
+
+/**
+ * Caches an item in the respective action's cache directory.
+ */
+LaunchBar.cache = new CacheConf({
+  configName: "cache",
+  cwd: LaunchBar.env.cachePath
+});
