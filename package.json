@@ -10,9 +10,8 @@
   "license": "MIT",
   "dependencies": {
     "@roeybiran/launchbar-env": "^1.0.0",
-    "@roeybiran/task": "^1.0.0",
     "cache-conf": "^0.6.0",
-    "conf": "^7.0.1",
+    "conf": "^7.1.1",
     "escape-string-applescript": "^2.0.0"
   },
   "devDependencies": {},
